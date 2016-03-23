@@ -1,0 +1,49 @@
+<md-dialog aria-label="List dialog">
+    <md-dialog-content layout="column" layout-align="space-around stretch">
+        <md-button ng-repeat="place in dialog.prefs.workPlaces"  class="md-primary"
+                   ng-click="dialog.save(dialog.saveEnum.PLACE, place)"
+                   ng-if="!dialog.prefs.canBeDeletedOrReplaced && !dialog.prefs.canBeExtended
+                   && !(sch.orientation === sch.orientationEnum.PLACEBYDAY)">
+            <md-icon class="material-icons">work</md-icon>
+            <span class="layout-padding">Рабочее место №{{place}}</span></md-button>
+        <md-button ng-repeat="place in dialog.prefs.workPlacesForReplacement" class="md-primary"
+                   ng-click="dialog.replace(dialog.prefs.targetScheduleHour, place, dialog.saveEnum.PLACE)"
+                   ng-if="dialog.prefs.canBeDeletedOrReplaced && !dialog.prefs.canBeExtended && !dialog.prefs.intersectWithTemp
+                   && !(sch.orientation === sch.orientationEnum.PLACEBYDAY)">
+            <md-icon class="material-icons">build</md-icon>
+            <span class="layout-padding">Сменить на место №{{place}}</span></md-button>
+
+        <md-button ng-repeat="personId in dialog.prefs.usersIds" class="md-primary"
+                   ng-click="dialog.save(dialog.saveEnum.PERSONID, personId)"
+                   ng-if="!dialog.prefs.canBeDeletedOrReplaced && !dialog.prefs.canBeExtended
+                   && (sch.orientation === sch.orientationEnum.PLACEBYDAY)">
+            <md-icon class="material-icons">work</md-icon>
+            <span class="layout-padding">{{sch.users[personId].name}}</span></md-button>
+        <md-button ng-repeat="personId in dialog.prefs.usersIdsForReplacement" class="md-primary"
+                   ng-click="dialog.replace(dialog.prefs.targetScheduleHour, personId, dialog.saveEnum.PERSONID)"
+                   ng-if="dialog.prefs.canBeDeletedOrReplaced && !dialog.prefs.canBeExtended
+                   && (sch.orientation === sch.orientationEnum.PLACEBYDAY)">
+            <md-icon class="material-icons">build</md-icon>
+            <span class="layout-padding">Сменить на {{sch.users[personId].name}}</span></md-button>
+
+        <md-button ng-if="dialog.prefs.canBeExtended && !dialog.prefs.intersectWithTemp
+                   && (sch.isAdmin || !sch.isAdmin && dialog.prefs.targetScheduleHour.place !== 0)"
+                   ng-click="dialog.extend(dialog.prefs.targetScheduleHour)" class="md-primary">
+            <md-icon class="material-icons">next_week</md-icon>
+            <span class="layout-padding">Продлить сессию</span></md-button>
+        <md-button ng-if="dialog.prefs.canBeDeletedOrReplaced &&
+                   (sch.isAdmin || !sch.isAdmin && dialog.prefs.targetScheduleHour.place !== 0)"
+                   ng-click="dialog.remove(dialog.prefs.targetScheduleHour)" class="md-warn">
+            <md-icon class="material-icons">delete</md-icon>
+            <span class="layout-padding">Удалить сессию</span></md-button>
+        <md-button ng-if="dialog.prefs.nothingCanDo || !sch.isAdmin && dialog.prefs.targetScheduleHour.place === 0"
+                   ng-click="dialog.hide()" class="md-primary">
+            <md-icon class="material-icons">error</md-icon>
+            <span class="layout-padding">Нет доступных действий</span></md-button>
+
+        <md-button class="md-warn" ng-click="dialog.save(dialog.saveEnum.DISABLED)"
+                   ng-if="dialog.prefs.canBeBlocked && !dialog.prefs.canBeExtended && sch.isAdmin">
+            <md-icon class="material-icons">block</md-icon>
+            <span class="layout-padding">Заблокировать</span></md-button>
+    </md-dialog-content>
+</md-dialog>

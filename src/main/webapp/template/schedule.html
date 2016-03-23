@@ -1,0 +1,112 @@
+<section ng-controller="ScheduleController as sch" ng-cloak layout="column" layout-align="center center">
+
+    <md-content class="layout-padding app fixed" layout-align="center center">
+
+        <md-toolbar class="md-toolbar-tools" layout="row" layout-align="center center">
+            <md-button class="md-icon-button" ng-click="sch.lastWeek()" ng-if="sch.isAdmin">
+                <md-icon class="material-icons">keyboard_arrow_left</md-icon>
+            </md-button>
+            <span flex></span>
+
+            <md-menu ng-if="sch.isAdmin">
+                <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                    <md-icon class="material-icons">menu</md-icon>
+                </md-button>
+                <md-menu-content width="3">
+                    <md-menu-item ng-class="{active: sch.orientation === sch.orientationEnum.DAYBYNAME}">
+                        <md-button ng-click="sch.setOrientation(sch.orientationEnum.DAYBYNAME)">
+                            Дни по работникам
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-class="{active: sch.orientation === sch.orientationEnum.NAMEBYDAY}">
+                        <md-button ng-click="sch.setOrientation(sch.orientationEnum.NAMEBYDAY)">
+                            Работники по дням</md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-class="{active: sch.orientation === sch.orientationEnum.PLACEBYDAY}">
+                        <md-button ng-click="sch.setOrientation(sch.orientationEnum.PLACEBYDAY)">
+                            Дни по местам</md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+
+            <span>{{sch.currentWeek.currentWeekNormal.simpleFormat('DD.MM.YYYY')}}</span>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="sch.nextWeek()" ng-if="sch.isAdmin">
+                <md-icon class="material-icons">keyboard_arrow_right</md-icon>
+            </md-button>
+        </md-toolbar>
+
+        <md-content layout="column" layout-align="center center" class="timeline"
+                    ng-if="!(sch.orientation === sch.orientationEnum.PLACEBYDAY)">
+
+            <table class="head fixed-size">
+                <colgroup width="22%" span="1">
+                <colgroup width="3.25%" span="24">
+                <thead>
+                <tr>
+                    <th class="row-title actions">
+                        <md-button class="md-raised md-primary" md-theme="accept"
+                                   ng-click="sch.sendToServerFromTemp()"
+                                   ng-if="!sch.isAdmin"
+                                   ng-disabled="sch.users[sch.user.peopleId].hours < $root.properties.minWeekHours
+                                       || (sch.tempAddedScheduleHours.length === 0 && sch.tempRemovedScheduleHours.length === 0)
+                                       || sch.tempErrors.length !== 0">
+                            Применить
+                        </md-button>
+                    </th>
+                    <th ng-repeat="time in scheduleTime" th="{{$index}}">
+                        <div class="vertical-text">{{time}}</div>
+                    </th>
+                </tr>
+                </thead>
+            </table>
+
+        </md-content>
+    </md-content>
+
+    <md-content class="layout-padding app top" layout="row"
+                ng-class="{thin: sch.orientation === sch.orientationEnum.PLACEBYDAY}">
+
+        <md-content class="timeline md-whiteframe-1dp"
+                    ng-class="{rotate: sch.orientation === sch.orientationEnum.PLACEBYDAY}"
+                    ng-if="sch.orientation === sch.orientationEnum.PLACEBYDAY">
+
+            <table class="head fixed-size rotate">
+                <colgroup width="10.7%" span="1">
+                <colgroup span="24">
+                <colgroup width="10.7%" span="1">
+                <thead>
+                <tr>
+                    <th class="row-title actions double"></th>
+                    <th ng-repeat="time in scheduleTime" th="{{$index}}">
+                        <div class="vertical-text">{{time}}</div>
+                    </th>
+                    <th class="row-title actions double"></th>
+                </tr>
+                </thead>
+            </table>
+
+        </md-content>
+
+        <md-content table-container class="md-whiteframe-1dp" layout="row" layout-align="start start" flex>
+
+            <table schedule id="table" class="fixed-size"
+                   ng-class="{rotate: sch.orientation === sch.orientationEnum.PLACEBYDAY,
+                                  'place-by-day': sch.orientation === sch.orientationEnum.PLACEBYDAY}"
+                   schedule-hours="sch.scheduleHours"
+                   blocked-schedule-hours="sch.blockedScheduleHours"
+                   users="sch.users"
+                   user="sch.user"
+                   temp-errors="sch.tempErrors"
+                   temp-added-schedule-hours="sch.tempAddedScheduleHours"
+                   is-planning-day="sch.isPlanningDay"
+                   orientation="sch.orientation"
+                   current-week="sch.currentWeek"
+                   properties="$root.properties">
+            </table>
+
+        </md-content>
+
+    </md-content>
+
+</section>
