@@ -88,7 +88,7 @@ gulp.task('default', ['js-clean', 'css-clean'], function() {
     return del('src/main/webapp/temp');
 });
 
-gulp.task('watch', ['js-clean'], function () {
+gulp.task('watch', ['js-clean', 'css-clean'], function () {
     gulp.watch('src/main/resources/static/js/**/*.js', ['js-clean']);
     gulp.watch('src/main/resources/static/css/*.css', ['css-clean']);
 });
