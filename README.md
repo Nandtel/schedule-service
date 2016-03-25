@@ -1,4 +1,5 @@
 # ScheduleService
+[![Build Status](https://travis-ci.org/Nandtel/ScheduleService.svg?branch=master)](https://travis-ci.org/Nandtel/ScheduleService)
 
 # Technologies
 Server-side:
