@@ -16,3 +16,6 @@ Client-side:
 - Npm JS
 - Gulp JS task runner
 - Lodash JS
+
+# License
+The MIT License (MIT)
