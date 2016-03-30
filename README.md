@@ -1,7 +1,7 @@
 # ScheduleService
 [![Build Status](https://travis-ci.org/Nandtel/ScheduleService.svg?branch=master)](https://travis-ci.org/Nandtel/ScheduleService)
 
-# Technologies
+## Technologies
 Server-side:
 - Java 8
 - Spring Boot 1.3.3
@@ -17,5 +17,5 @@ Client-side:
 - Gulp JS task runner
 - Lodash JS
 
-# License
+## License
 The MIT License (MIT)
