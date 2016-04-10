@@ -1,15 +1,14 @@
 const gulp = require('gulp');
-const usemin = require('gulp-usemin');
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 const ngAnnotate = require('gulp-ng-annotate');
 const ngTemplates = require('gulp-ng-templates');
 const htmlmin = require('gulp-htmlmin');
-const cleanCSS = require('gulp-clean-css');
 const del = require('del');
 const sass = require('gulp-sass');
 const newer = require('gulp-newer');
+const autoprefixer = require('gulp-autoprefixer');
 
 const staticDir = 'src/main/resources/static/';
 const tempDir = 'src/main/resources/static/temp/';
@@ -67,8 +66,11 @@ gulp.task('schedule-hour-js', ['source-concat', 'app-concat', 'html-concat'], fu
 gulp.task('main-compile', function() {
     return gulp.src(webAppDir + 'css/main.scss')
         .pipe(newer({dest: tempDir, ext: '.css'}))
-        .pipe(sass())
-        .pipe(cleanCSS())
+        .pipe(sass({outputStyle: 'compressed'}))
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        }))
         .pipe(gulp.dest(tempDir))
 });
 
@@ -87,9 +89,10 @@ gulp.task('remove-temp', ['schedule-hour-js', 'schedule-hour-css'], function () 
 });
 
 gulp.task('build', ['remove-temp']);
+gulp.task('default', ['schedule-hour-js', 'schedule-hour-css']);
 
-gulp.task('default', function () {
+gulp.task('watch', function () {
     gulp.watch(webAppDir + 'js/**/*.js', ['schedule-hour-js']);
     gulp.watch(webAppDir + 'template/**/*.html', ['schedule-hour-js']);
-    gulp.watch(webAppDir + 'css/**/*.scss', ['schedule-hour-css']);
+    gulp.watch(webAppDir + 'css/*.scss', ['schedule-hour-css']);
 });

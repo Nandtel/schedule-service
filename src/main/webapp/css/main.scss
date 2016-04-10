@@ -15,11 +15,12 @@
 
     schedule-hour {
 
+        md-content.header.fixed {
+            padding-top: 0;
+            top: 2rem;
+        }
+
         div.vertical-text {
-            -moz-transform: rotate(-90deg);
-            -ms-transform: rotate(-90deg);
-            -webkit-transform: rotate(-90deg);
-            -o-transform: rotate(-90deg);
             transform: rotate(-90deg);
             white-space: nowrap;
             margin: 3.7rem 0 1rem;
@@ -27,12 +28,8 @@
         }
 
         .timeline table.rotate {
-            -moz-transform: rotate(90deg);
-            -ms-transform: rotate(90deg);
-            -webkit-transform: rotate(90deg);
-            -o-transform: rotate(90deg);
             transform: rotate(90deg);
-            transform-origin: 0% 0%;
+            transform-origin: 0 0;
             left: 7rem;
             position: absolute;
         }
@@ -62,12 +59,8 @@
         }
 
         table.place-by-day.rotate {
-            -moz-transform: rotate(90deg);
-            -ms-transform: rotate(90deg);
-            -webkit-transform: rotate(90deg);
-            -o-transform: rotate(90deg);
             transform: rotate(90deg);
-            transform-origin: 0% 100%;
+            transform-origin: 0 100%;
         }
 
         table.place-by-day {
@@ -216,10 +209,6 @@
         table.rotate td.title.rotate span {
             display: block;
             text-align: center;
-            -moz-transform: rotate(-90deg);
-            -ms-transform: rotate(-90deg);
-            -webkit-transform: rotate(-90deg);
-            -o-transform: rotate(-90deg);
             transform: rotate(-90deg);
             white-space: nowrap;
         }
@@ -248,7 +237,7 @@
             overflow: hidden;
             clear: both;
             transform: rotate(-90deg);
-            transform-origin: 0% 0%;
+            transform-origin: 0 0;
             font-weight: 600
         }
 
@@ -290,6 +279,7 @@
     }
 
     div.md-dialog-container {
+        position: fixed;
 
         md-dialog {
             min-width: 0;
@@ -314,10 +304,6 @@
                 text-align: left;
             }
 
-        }
-
-        div.md-dialog-container {
-            position: fixed;
         }
 
     }
