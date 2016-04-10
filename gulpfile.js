@@ -87,5 +87,5 @@ gulp.task('build', ['schedule-hour-js', 'schedule-hour-css']);
 gulp.task('default', function () {
     gulp.watch(webAppDir + 'js/**/*.js', ['schedule-hour-js']);
     gulp.watch(webAppDir + 'template/**/*.html', ['schedule-hour-js']);
-    gulp.watch(webAppDir + 'css/**/*.css', ['schedule-hour-css']);
+    gulp.watch(webAppDir + 'css/**/*.scss', ['schedule-hour-css']);
 });

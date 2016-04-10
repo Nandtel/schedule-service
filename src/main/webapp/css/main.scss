@@ -1,4 +1,12 @@
 @media all {
+
+    @font-face {
+        font-family: 'Material Icons';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Material Icons'), local('MaterialIcons-Regular'), url(/font/material-icon.woff2) format('woff2');
+    }
+
     body {
         /* Angular-material make body fixed, when open select menu - fixed header is dropped*/
         position: inherit !important;
@@ -43,29 +51,6 @@
 
         th.row-title.actions.double:last-child {
             width: 10.5%;
-        }
-
-        @font-face {
-            font-family: 'Material Icons';
-            font-style: normal;
-            font-weight: 400;
-            src: local('Material Icons'), local('MaterialIcons-Regular'), url(/font/material-icon.woff2) format('woff2');
-        }
-
-        .material-icons {
-            font-family: 'Material Icons';
-            font-weight: normal;
-            font-style: normal;
-            font-size: 24px;
-            line-height: 1;
-            letter-spacing: normal;
-            text-transform: none;
-            display: inline-block;
-            white-space: nowrap;
-            word-wrap: normal;
-            direction: ltr;
-            -webkit-font-feature-settings: 'liga';
-            -webkit-font-smoothing: antialiased;
         }
 
         table {
@@ -224,14 +209,6 @@
             width: 1069px;
         }
 
-        .fixed {
-            position: fixed;
-            z-index: 50;
-            margin: 0 auto;
-            left: 0;
-            right: 0;
-        }
-
         td.divider.border {
             border-bottom: 1px solid #424242;
         }
@@ -286,6 +263,30 @@
         td.person8 {background: rgba(0, 105, 92, 0.5);}
         td.person9 {background: rgba(0, 77, 64, 0.5);}
 
+        .fixed {
+            position: fixed;
+            z-index: 50;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+        }
+
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+
     }
 
     div.md-dialog-container {
@@ -328,6 +329,5 @@
         }
         
     }
-
 
 }
