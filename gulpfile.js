@@ -12,7 +12,7 @@ const sass = require('gulp-sass');
 const newer = require('gulp-newer');
 
 const staticDir = 'src/main/resources/static/';
-const tempDir = 'src/main/resources/temp/';
+const tempDir = 'src/main/resources/static/temp/';
 const webAppDir = 'src/main/webapp/';
 
 gulp.task('source-concat', function() {
@@ -82,7 +82,11 @@ gulp.task('schedule-hour-css', ['main-compile'], function() {
         .pipe(gulp.dest(staticDir))
 });
 
-gulp.task('build', ['schedule-hour-js', 'schedule-hour-css']);
+gulp.task('remove-temp', ['schedule-hour-js', 'schedule-hour-css'], function () {
+    return del(tempDir);
+});
+
+gulp.task('build', ['remove-temp']);
 
 gulp.task('default', function () {
     gulp.watch(webAppDir + 'js/**/*.js', ['schedule-hour-js']);

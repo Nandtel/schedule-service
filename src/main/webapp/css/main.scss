@@ -291,28 +291,29 @@
 
     div.md-dialog-container {
 
-        md-dialog h2 {
-            font-weight: bold;
-        }
-
-        md-dialog md-content .dialog-title {
-            margin-top: .6rem;
-        }
-
-        md-dialog md-content md-input-container {
-            margin: 0;
-        }
-
         md-dialog {
             min-width: 0;
-        }
 
-        md-dialog md-dialog-content .md-button {
-            border-radius: inherit;
-            margin: 0 !important;
-            padding: .4rem .8rem;
-            text-transform: none;
-            text-align: left;
+            h2 {
+                font-weight: bold;
+            }
+
+            md-content .dialog-title {
+                margin-top: .6000rem;
+            }
+
+            md-content md-input-container {
+                margin: 0;
+            }
+
+            md-dialog-content .md-button {
+                border-radius: inherit;
+                margin: 0 !important;
+                padding: .4rem .8rem;
+                text-transform: none;
+                text-align: left;
+            }
+
         }
 
         div.md-dialog-container {
