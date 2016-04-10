@@ -9,6 +9,7 @@ var htmlmin = require('gulp-htmlmin');
 var cleanCSS = require('gulp-clean-css');
 var newer = require('gulp-newer');
 var del = require('del');
+var sass = require('gulp-sass');
 
 
 gulp.task('app', function () {
@@ -64,8 +65,9 @@ gulp.task('js-clean', ['js-concat'], function() {
 });
 
 gulp.task('main-css', function() {
-    return gulp.src('src/main/webapp/css/main.css')
+    return gulp.src('src/main/webapp/css/main.scss')
         .pipe(sourcemaps.init())
+        .pipe(sass())
         .pipe(cleanCSS())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('src/main/webapp/temp/css/'))
