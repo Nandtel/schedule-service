@@ -1,96 +1,91 @@
-var gulp = require('gulp');
-var usemin = require('gulp-usemin');
-var concat = require('gulp-concat');
-var sourcemaps = require('gulp-sourcemaps');
-var uglify = require('gulp-uglify');
-var ngAnnotate = require('gulp-ng-annotate');
-var ngTemplates = require('gulp-ng-templates');
-var htmlmin = require('gulp-htmlmin');
-var cleanCSS = require('gulp-clean-css');
-var newer = require('gulp-newer');
-var del = require('del');
-var sass = require('gulp-sass');
+const gulp = require('gulp');
+const usemin = require('gulp-usemin');
+const concat = require('gulp-concat');
+const sourcemaps = require('gulp-sourcemaps');
+const uglify = require('gulp-uglify');
+const ngAnnotate = require('gulp-ng-annotate');
+const ngTemplates = require('gulp-ng-templates');
+const htmlmin = require('gulp-htmlmin');
+const cleanCSS = require('gulp-clean-css');
+const del = require('del');
+const sass = require('gulp-sass');
+const newer = require('gulp-newer');
 
+const staticDir = 'src/main/resources/static/';
+const tempDir = 'src/main/resources/temp/';
+const webAppDir = 'src/main/webapp/';
 
-gulp.task('app', function () {
-    return gulp.src('src/main/webapp/js/app/**/*.js')
+gulp.task('source-concat', function() {
+    return gulp.src([
+            'node_modules/jquery/dist/jquery.min.js',
+            'node_modules/angular/angular.min.js',
+            'node_modules/angular-animate/angular-animate.min.js',
+            'node_modules/angular-aria/angular-aria.min.js',
+            'node_modules/angular-material/angular-material.min.js',
+            'src/main/webapp/js/src/moment-with-ru.min.js',
+            'node_modules/angular-moment/angular-moment.min.js',
+            'node_modules/twix/dist/twix.min.js',
+            'src/main/webapp/js/src/lodash.min.js',
+            'src/main/webapp/js/src/lodash.core.min.js',
+            'src/main/webapp/js/src/ng-lodash.min.js'
+    ])
+        .pipe(newer(tempDir + 'source.min.js'))
+        .pipe(concat('source.min.js'))
+        .pipe(gulp.dest(tempDir))
+});
+
+gulp.task('app-concat', function () {
+    return gulp.src(webAppDir + 'js/app/**/*.js')
+        .pipe(newer(tempDir + 'app.min.js'))
         .pipe(concat('app.min.js'))
         .pipe(ngAnnotate())
         .pipe(uglify())
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest('src/main/webapp/temp/js/'))
+        .pipe(gulp.dest(tempDir))
 });
 
-gulp.task('src', function() {
+gulp.task('html-concat', function() {
     return gulp.src([
-        'src/main/webapp/js/src/jquery.min.js',
-        'src/main/webapp/js/src/angular.min.js',
-        'src/main/webapp/js/src/angular-animate.min.js',
-        'src/main/webapp/js/src/angular-aria.min.js',
-        'src/main/webapp/js/src/angular-material.min.js',
-        'src/main/webapp/js/src/moment-with-ru.min.js',
-        'src/main/webapp/js/src/angular-moment.min.js',
-        'src/main/webapp/js/src/twix.min.js',
-        'src/main/webapp/js/src/lodash.min.js',
-        'src/main/webapp/js/src/lodash.core.min.js',
-        'src/main/webapp/js/src/ng-lodash.min.js'
-    ])
-        .pipe(concat('source.min.js'))
-        .pipe(gulp.dest('src/main/webapp/temp/js/'))
-});
-
-gulp.task('html', function() {
-    return gulp.src([
-        'src/main/webapp/**/*.html',
-        '!src/main/webapp/index.html',
-        '!src/main/webapp/index-copy.html'
-    ])
+            webAppDir + 'template/*.html'
+        ])
+        .pipe(newer(tempDir + 'template.min.js'))
         .pipe(htmlmin({collapseWhitespace: true}))
         .pipe(ngTemplates({module: 'ScheduleModule', standalone: false}))
-        .pipe(gulp.dest('src/main/webapp/temp/js/'))
+        .pipe(gulp.dest(tempDir))
 });
 
-gulp.task('js-concat', ['app', 'src', 'html'], function() {
+gulp.task('schedule-hour-js', ['source-concat', 'app-concat', 'html-concat'], function () {
     return gulp.src([
-            'src/main/webapp/temp/js/source.min.js',
-            'src/main/webapp/temp/js/app.min.js',
-            'src/main/webapp/temp/js/templates.min.js'
-        ])
+        tempDir + 'source.min.js',
+        tempDir + 'app.min.js',
+        tempDir + 'template.min.js'
+    ])
+        .pipe(newer(staticDir + 'schedule-hour.min.js'))
         .pipe(concat('schedule-hour.min.js'))
-        .pipe(gulp.dest('src/main/resources/static/'))
+        .pipe(gulp.dest(staticDir))
 });
 
-gulp.task('js-clean', ['js-concat'], function() {
-    return del('src/main/webapp/temp/js');
-});
-
-gulp.task('main-css', function() {
-    return gulp.src('src/main/webapp/css/main.scss')
-        .pipe(sourcemaps.init())
+gulp.task('main-compile', function() {
+    return gulp.src(webAppDir + 'css/main.scss')
+        .pipe(newer({dest: tempDir, ext: '.css'}))
         .pipe(sass())
         .pipe(cleanCSS())
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest('src/main/webapp/temp/css/'))
+        .pipe(gulp.dest(tempDir))
 });
 
-gulp.task('css-concat', ['main-css'], function() {
+gulp.task('schedule-hour-css', ['main-compile'], function() {
     return gulp.src([
-        'src/main/webapp/css/angular-material.min.css',
-        'src/main/webapp/temp/css/main.css'
-    ])
+            'node_modules/angular-material/angular-material.min.css',
+            tempDir + 'main.css'
+        ])
+        .pipe(newer(staticDir + 'schedule-hour.min.css'))
         .pipe(concat('schedule-hour.min.css'))
-        .pipe(gulp.dest('src/main/resources/static/'))
+        .pipe(gulp.dest(staticDir))
 });
 
-gulp.task('css-clean', ['css-concat'], function() {
-    return del('src/main/webapp/temp/css');
-});
+gulp.task('build', ['schedule-hour-js', 'schedule-hour-css']);
 
-gulp.task('default', ['js-clean', 'css-clean'], function() {
-    return del('src/main/webapp/temp');
-});
-
-gulp.task('watch', ['js-clean', 'css-clean'], function () {
-    gulp.watch('src/main/resources/static/js/**/*.js', ['js-clean']);
-    gulp.watch('src/main/resources/static/css/*.css', ['css-clean']);
+gulp.task('default', function () {
+    gulp.watch(webAppDir + 'js/**/*.js', ['schedule-hour-js']);
+    gulp.watch(webAppDir + 'template/**/*.html', ['schedule-hour-js']);
+    gulp.watch(webAppDir + 'css/**/*.css', ['schedule-hour-css']);
 });

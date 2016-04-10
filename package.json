@@ -17,5 +17,16 @@
     "gulp-uglify": "^1.5.3",
     "gulp-usemin": "^0.3.21",
     "vinyl-paths": "^2.1.0"
+  },
+  "dependencies": {
+    "angular": "^1.5.3",
+    "angular-animate": "^1.5.3",
+    "angular-aria": "^1.5.3",
+    "angular-material": "^1.0.7",
+    "angular-moment": "^1.0.0-beta.5",
+    "jquery": "^2.2.3",
+    "lodash": "^4.9.0",
+    "ng-lodash": "^0.2.3",
+    "twix": "^0.9.0"
   }
 }
