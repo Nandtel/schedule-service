@@ -116,7 +116,8 @@ angular
 
                 var daysOfWeek = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс', 'Пн'];
                 var daysLength = 24;
-                var userIds = userService.getArrayOfIds(users);
+                var userIdsOrder = userService.getArrayOfIds(users);
+                var userIds = userService.getArrayOfIdsOrderedBy(users, 'name');
 
                 var nameFirst = isDayByName ? userIds : daysOfWeek;
                 var nameSecond;
@@ -292,12 +293,12 @@ angular
              * @param $scope
              * @param orientation
              * @param sessionLength
-             * @param userIds
+             * @param users
              * @param weekDates
              * @param workplaces
              * @param user
              */
-            addActionListeners: function($scope, orientation, sessionLength, userIds, weekDates, workplaces, user) {
+            addActionListeners: function($scope, orientation, sessionLength, users, weekDates, workplaces, user) {
                 angular.element(document)
                     .off("mouseenter mouseleave mouseover mouseout click", "td.active-td")
                     .on({
@@ -317,17 +318,21 @@ angular
                             var tr = parseInt(angular.element(event.target).attr('tr'));
                             var td = parseInt(angular.element(event.target).attr('td'));
 
+                            var userIdsOrder = userService.getArrayOfIdsOrderedBy(users, 'name');
+                            var userIds = userService.getArrayOfIds(users);
+
                             if(orientation === orientationEnum.PLACEBYDAY)
                                 self.scrollLeftRotateTable = angular.element('[table-container]').scrollLeft();
 
                             if (orientation === orientationEnum.DAYBYNAME) {
-                                peopleId = userIds[tb];
+                                peopleId = userIdsOrder[userIdsOrder.indexOf(userIds[tb])];
                                 date = weekDates[tr]
                             }
 
                             if (orientation === orientationEnum.NAMEBYDAY) {
                                 date = weekDates[tb];
-                                peopleId = userIds[tr];
+                                peopleId = userIdsOrder[userIdsOrder.indexOf(userIds[tr])];
+                                console.log(peopleId);
                             }
 
                             if (orientation === orientationEnum.PLACEBYDAY) {
@@ -449,6 +454,9 @@ angular
                     var personIds = angular.element('span[person-id]');
                     var elements = angular.element(document.querySelectorAll("[with-hours]"));
 
+                    var userIdsOrder = userService.getArrayOfIdsOrderedBy(users, 'name');
+                    var userIds = userService.getArrayOfIds(users);
+
                     angular.forEach(scheduleHours, function(sh) {
                         if(sh.peopleId != 0) {
                             range = moment.duration(sh.hours, 'hours').afterMoment(sh.dateHourStart);
@@ -461,7 +469,7 @@ angular
 
                     angular.forEach(personIds, function(id) {
                         personId = parseInt(angular.element(id).attr('person-id'));
-                        hours = usersTemp[personId].hours;
+                        hours = usersTemp[parseInt(userIds[userIdsOrder.indexOf(personId.toString())])].hours;
                         angular.element(elements[i]).text(hours + ' ч. ');
                         i++;
                     });
@@ -700,7 +708,7 @@ angular
                         schedule
                             .removeSchedule($element)
                             .getCleanSchedule($element, orientation, users, user)
-                            .addActionListeners($scope, orientation, sessionLength, userIds, currentWeekDates, workplaces, user)
+                            .addActionListeners($scope, orientation, sessionLength, users, currentWeekDates, workplaces, user)
                             .addDataToSchedule(scheduleHours, orientation, sessionLength, users, currentWeekDates, workplaces, isReady)
                             .addWorkHoursToPersons(scheduleHours, users, currentWeek, orientation)
                             .addBlockedByAdmin(blockedScheduleHours, orientation, sessionLength, currentWeekDates, workplaces)
@@ -735,7 +743,7 @@ angular
                         schedule
                             .clearCurrentSchedule(removed, orientation, users, weekDates, workplaces)
                             .blockedWorkplaces(command.CLEAR, removedBlockedCells, orientation, weekDates)
-                            .addActionListeners($scope, orientation, sessionLength, userIds, currentWeekDates, workplaces, user)
+                            .addActionListeners($scope, orientation, sessionLength, users, currentWeekDates, workplaces, user)
                             .addDataToSchedule(addedScheduleHours, orientation, sessionLength, users, currentWeekDates, workplaces, isReady)
                             .addWorkHoursToPersons(newValue, users, currentWeek, orientation)
                             .addBlockedByAdmin(addedBlockedScheduleHours, orientation, sessionLength, currentWeekDates, workplaces)
@@ -751,7 +759,7 @@ angular
                         isPlanningDay = newValue;
                         if(isPlanningDay || user.authority === authorityEnum.ADMIN)
                             schedule
-                                .addActionListeners($scope, orientation, sessionLength, userIds, currentWeekDates, properties.workplaces, user);
+                                .addActionListeners($scope, orientation, sessionLength, users, currentWeekDates, properties.workplaces, user);
                         if(!isPlanningDay && user.authority === authorityEnum.USER)
                             angular.element(document)
                                 .off("mouseenter click", "td.active-td");

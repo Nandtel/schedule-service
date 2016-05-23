@@ -1,6 +1,6 @@
 angular
     .module('ScheduleModule')
-    .factory('userService', function() {
+    .factory('userService', function(lodash) {
         return {
             transformUsersToUsersWithWorkHours: function(users) {
                 var usersResult = {};
@@ -16,6 +16,17 @@ angular
                 });
                 return users;
             },
-            getArrayOfIds: function(users) {return Object.keys(users);}
+            getArrayOfIds: function(users) {return Object.keys(users);},
+            getArrayOfIdsOrderedBy: function (users, orderBy) {
+                return lodash.chain(users)
+                    .map(function (value, key) {
+                        return {id: key, name: value.name, hours: value.hours};
+                    })
+                    .sortBy(orderBy)
+                    .map(function (user) {
+                        return user.id;
+                    })
+                    .value();
+            }
         }
     });
