@@ -332,7 +332,6 @@ angular
                             if (orientation === orientationEnum.NAMEBYDAY) {
                                 date = weekDates[tb];
                                 peopleId = userIdsOrder[userIdsOrder.indexOf(userIds[tr])];
-                                console.log(peopleId);
                             }
 
                             if (orientation === orientationEnum.PLACEBYDAY) {
@@ -371,6 +370,7 @@ angular
                 var isDayByName = orientation === orientationEnum.DAYBYNAME;
                 var isNameByDay = orientation === orientationEnum.NAMEBYDAY;
                 var isPlaceByDay = orientation === orientationEnum.PLACEBYDAY;
+                var userIdsOrder = userService.getArrayOfIdsOrderedBy(users, 'name');
 
                 var peopleIds = userService.getArrayOfIds(users);
 
@@ -418,7 +418,7 @@ angular
                             if(isPlaceByDay && length >= 3 && (iHour === 0 || i === 0)) {
                                 offset = element.position();
                                 var time = date.format('YYYY-MM-DD-HH');
-                                query = '<div person-name place=' + sh.place + ' hour= ' + time + '>' + user.name + '</div>';
+                                query = '<div person-name place=' + sh.place + ' hour= ' + time + '>' + users[userIdsOrder[peopleIds.indexOf(text.toString())]].name + '</div>';
                                 div = angular.element(query);
                                 div.css({
                                     top: offset.top + top,
