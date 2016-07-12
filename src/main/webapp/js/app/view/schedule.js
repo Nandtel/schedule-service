@@ -346,7 +346,7 @@ angular
                                 place: place
                             };
 
-                            $scope.$parent.sch.selectWorkplace(event, newScheduleHour, orientation, userIds, user);
+                            $scope.$parent.sch.selectWorkplace(event, newScheduleHour, orientation, users, user);
                         }
                     }, "td.active-td");
 

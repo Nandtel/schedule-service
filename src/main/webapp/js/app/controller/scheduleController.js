@@ -71,7 +71,7 @@ angular
                         self.scheduleHours = answer;
                     });
             };
-            self.selectWorkplace = function(event, newScheduleHour, orientation, userIds, user) {
+            self.selectWorkplace = function(event, newScheduleHour, orientation, users, user) {
                 $mdDialog.show({
                     targetEvent: event,
                     scope: $scope.$new(),
@@ -83,7 +83,7 @@ angular
                     locals: {
                         newScheduleHour: newScheduleHour,
                         orientation: orientation,
-                        userIds: userIds,
+                        users: users,
                         user: user
                     }
                 })

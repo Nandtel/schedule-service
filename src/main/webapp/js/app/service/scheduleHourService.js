@@ -1,6 +1,6 @@
 angular
     .module('ScheduleModule')
-    .factory('scheduleHourService', function(moment, $http, orientationEnum) {
+    .factory('scheduleHourService', function(moment, $http, orientationEnum, userService) {
 
         function getRange(dateHourStart, sessionDurationHours) {
             var activeSessionDuration = moment.duration(sessionDurationHours, 'hours');
@@ -58,7 +58,7 @@ angular
 
         return {
             equals: equalsScheduleHours,
-            checkScheduleForOpenMenu: function(newScheduleHour, unionScheduleHours, tempAddedScheduleHours, orientation, userIds, workplaces) {
+            checkScheduleForOpenMenu: function(newScheduleHour, unionScheduleHours, tempAddedScheduleHours, orientation, users, workplaces) {
 
                 var shRange, isOverlaps, isSamePerson, isEqualsOrEngulfs, targetRange,
                     isSamePlace, activeRange, workPlaces, workPlacesForReplacement, activeRangeAddit,
@@ -70,8 +70,8 @@ angular
                 activeRange = getRange(newScheduleHour.dateHourStart, newScheduleHour.hours);
                 workPlaces = angular.copy(workplaces);
                 workPlacesForReplacement = angular.copy(workplaces);
-                peopleIds = angular.copy(userIds);
-                peopleIdsForReplacement = angular.copy(userIds);
+                peopleIds = angular.copy(userService.getArrayOfIdsOrderedBy(users, 'name'));
+                peopleIdsForReplacement = angular.copy(userService.getArrayOfIdsOrderedBy(users, 'name'));
 
                 canBeDeletedOrReplaced = false;
                 canBeExtended = false;
@@ -184,7 +184,7 @@ angular
                     peopleIds = [];
                     workPlaces = [];
                 }
-
+                
                 return {
                     targetScheduleHour: targetScheduleHour,
                     workPlaces: workPlaces,
