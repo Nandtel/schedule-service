@@ -5,7 +5,16 @@
   "scripts": {
     "postinstall": "gulp"
   },
-  "devDependencies": {
+  "dependencies": {
+    "angular": "^1.5.3",
+    "angular-animate": "^1.5.3",
+    "angular-aria": "^1.5.3",
+    "angular-material": "^1.0.7",
+    "angular-moment": "^1.0.0-beta.5",
+    "jquery": "^2.2.3",
+    "lodash": "^4.9.0",
+    "ng-lodash": "^0.2.3",
+    "twix": "^0.9.0",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
@@ -18,15 +27,5 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.3"
   },
-  "dependencies": {
-    "angular": "^1.5.3",
-    "angular-animate": "^1.5.3",
-    "angular-aria": "^1.5.3",
-    "angular-material": "^1.0.7",
-    "angular-moment": "^1.0.0-beta.5",
-    "jquery": "^2.2.3",
-    "lodash": "^4.9.0",
-    "ng-lodash": "^0.2.3",
-    "twix": "^0.9.0"
-  }
+  "devDependencies": {}
 }
