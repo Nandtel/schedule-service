@@ -88,8 +88,7 @@ gulp.task('remove-temp', ['schedule-hour-js', 'schedule-hour-css'], function () 
     return del(tempDir);
 });
 
-gulp.task('build', ['remove-temp']);
-gulp.task('default', ['schedule-hour-js', 'schedule-hour-css']);
+gulp.task('default', ['remove-temp']);
 
 gulp.task('watch', function () {
     gulp.watch(webAppDir + 'js/**/*.js', ['schedule-hour-js']);

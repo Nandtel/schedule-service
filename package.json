@@ -1,7 +1,10 @@
 {
   "name": "Schedule",
   "version": "1.0.0",
-  "license": "ISC",
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "gulp"
+  },
   "devDependencies": {
     "del": "^2.2.0",
     "gulp": "^3.9.1",
