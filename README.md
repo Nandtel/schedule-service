@@ -1,5 +1,5 @@
 # ScheduleService
-[![Build Status](https://travis-ci.org/Nandtel/ScheduleService.svg?branch=master)](https://travis-ci.org/Nandtel/ScheduleService)
+[![Build Status](https://travis-ci.org/Nandtel/schedule-service.svg?branch=master)](https://travis-ci.org/Nandtel/schedule-service)
 
 ## Demo
 Сonvenient demo at Heroku: https://scheduleservice.herokuapp.com <br />
