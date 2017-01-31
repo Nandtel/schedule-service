@@ -181,14 +181,6 @@
             background: #424242
         }
 
-        .top {
-            top: 11.5rem
-        }
-
-        .top.thin {
-            top: 4rem
-        }
-
         md-content.thin {
             height: 70rem;
         }
@@ -248,7 +240,6 @@
         td.person9 {background: rgba(0, 77, 64, 0.5);}
 
         .fixed {
-            position: fixed;
             z-index: 50;
             margin: 0 auto;
             left: 0;
